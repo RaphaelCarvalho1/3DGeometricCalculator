@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+      "rootDir": "src",
+      "outDir": "dist",
+      "target": "es6",
+      "lib": [
+        "es2017",
+        "dom"
+      ],
+      "types": [
+        "node"
+      ],
+      "module": "es2015",
+      "moduleResolution": "node",
+      "esModuleInterop": true,
+      "strict": true,
+      "sourceMap": true
+    },
+    "exclude": [
+      "node_modules"
+    ]
+  }

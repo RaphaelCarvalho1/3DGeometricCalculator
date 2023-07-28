@@ -1,0 +1,4 @@
+**/node_modules
+.vscode/
+dist/main.bundle.js
+dist/main.bundle.js.map
