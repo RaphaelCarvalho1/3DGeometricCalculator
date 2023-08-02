@@ -1,17 +1,8 @@
-console.log("hello world!");
+class Main {
+    private _canvas = document.querySelector("#glcanvas");
+    public static _gl: WebGL2RenderingContext;
 
-class Class{
-    private value: number;
-
-    constructor(value: number){
-        this.value = value;
-    }
-
-    sayValue(){
-        console.log("My value is " + this.value);
+    private draw(): void {
+        
     }
 }
-
-const teste = new Class(12);
-
-teste.sayValue();

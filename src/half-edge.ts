@@ -1,7 +1,7 @@
 class Vertex {
     private _id: number;
     private _position: number[];
-    private _he: HalfEdge;
+    private _he?: HalfEdge;
 
     constructor(id: number, position: number[]) {
         this._id = id;
@@ -17,7 +17,7 @@ class Vertex {
     }
 
     public get he(): HalfEdge {
-        return this._he;
+        return this._he!;
     }
 
     public set he(he: HalfEdge) {
@@ -35,16 +35,16 @@ class Face {
 
 class HalfEdge {
     private _vertex: Vertex;
-    private _face: Face;
-    private _next: HalfEdge;
-    private _opposite: HalfEdge;
+    private _face?: Face;
+    private _next?: HalfEdge;
+    private _opposite?: HalfEdge;
 
     constructor(vertex: Vertex) {
         this._vertex = vertex;
     }
 
     public get next(): HalfEdge {
-        return this._next;
+        return this._next!;
     }
 
     public get vertex(): Vertex {
@@ -52,7 +52,7 @@ class HalfEdge {
     }
 
     public get opposite(): HalfEdge {
-        return this._opposite;
+        return this._opposite!;
     }
 
     public set next(next: HalfEdge) {
@@ -65,9 +65,9 @@ class HalfEdge {
 }
 
 export class HalfEdgeDS {
-    private _halfEdges: Array<HalfEdge>;
-    private _vertices: Array<Vertex>;
-    private _faces: Array<Face>;
+    private _halfEdges?: Array<HalfEdge>;
+    private _vertices?: Array<Vertex>;
+    private _faces?: Array<Face>;
 
     public build(coords: Array<number>, indices: Array<number>) {
 

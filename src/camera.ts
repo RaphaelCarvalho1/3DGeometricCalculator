@@ -4,10 +4,10 @@ export class Camera {
     private _eye: vec3 = vec3.create();
     private _lookAt: vec3 = vec3.create();
     private _up: vec3 = vec3.create();
-    private _near: number;
-    private _far: number;
-    private _bottom: number;
-    private _top: number;
+    private _near?: number;
+    private _far?: number;
+    private _bottom?: number;
+    private _top?: number;
     private _view: mat4 = mat4.create();
     private _projection: mat4 = mat4.create();
     private _viewProjection: mat4 = mat4.create();
@@ -40,7 +40,7 @@ export class Camera {
 
     }
 
-    public zoom(): void {
+    public zoom(out: boolean): void {
 
     }
 }
