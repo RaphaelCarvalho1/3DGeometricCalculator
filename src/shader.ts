@@ -1,4 +1,4 @@
-export class Shader {
+/*export class Shader {
     public static createBuffer(type: GLenum, data: Float32Array): WebGLBuffer {
         return;
     }
@@ -14,4 +14,4 @@ export class Shader {
     public static createShader(type: GLenum, source: string): WebGLShader {
         return;
     }
-}
+}*/

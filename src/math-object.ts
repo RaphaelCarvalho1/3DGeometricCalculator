@@ -1,4 +1,4 @@
-import { Mesh } from './mesh';
+/*import { Mesh } from './mesh';
 
 interface MathObject {
     meshFromObj(): Mesh;
@@ -88,8 +88,10 @@ class vecFuntion implements MathObject {
     }
 }
 
+*/
+
 export interface Expression {
-    calculate(varible: number | number[]): number;
+    calculate(varible: number | number[]): number | undefined;
 }
 
 

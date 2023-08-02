@@ -1,4 +1,4 @@
-import { Camera } from './camera';
+/*import { Camera } from './camera';
 import { Mesh } from './mesh';
 
 class Scene {
@@ -12,4 +12,4 @@ class Scene {
     public draw(): void {
 
     }
-}
+}*/
