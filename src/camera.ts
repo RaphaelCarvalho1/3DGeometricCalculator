@@ -40,6 +40,11 @@ export class Camera {
 
     }
 
+    public update() {
+        this.updateView();
+        this.updateProjection();
+    }
+
     public zoom(out: boolean): void {
 
     }
