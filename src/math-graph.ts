@@ -1,5 +1,5 @@
-/*import { Expression } from "./math-object";
-import { MathObject } from "./math-object";
+/*import { Expression } from './math-object';
+import { MathObject } from './math-object';
 
 class MathGraph {
     private _nodesMap: MathGraphNode;
