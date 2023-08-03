@@ -1,4 +1,4 @@
-import { Main } from "./main"
+import { Main } from './main'
 
 export class Shader {
     public static createBuffer(type: GLenum, data: Float32Array): WebGLBuffer | null {
