@@ -93,7 +93,7 @@ class CurveMesh extends ArrayMesh {
     
         this.updateModelMatrix();
 
-        const mvpLoc = Main._gl.getUniformLocation(this._program!, "MVP");
+        const mvpLoc = Main._gl!.getUniformLocation(this._program!, "MVP");
 
         const mvp = mat4.create();
 
