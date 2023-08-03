@@ -30,19 +30,19 @@ abstract class IndexedMesh extends Mesh {
 
     }
 
-public draw(): void {
+    public draw() {
         
     }
 }
 
 class SurfaceMesh extends IndexedMesh {
-    public draw(): void {
+    public draw() {
         
     }
 }
 
 class CurveMesh extends IndexedMesh {
-    public draw(): void {
+    public draw() {
         
     }
     
@@ -62,7 +62,7 @@ abstract class ArrayMesh extends Mesh {
 }
 
 class PointMesh extends ArrayMesh {
-    public draw(): void {
+    public draw() {
         
     }
 }

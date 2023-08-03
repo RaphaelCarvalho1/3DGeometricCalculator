@@ -38,12 +38,12 @@ export class Polynomial extends MathFunction {
 }
 
 export class Exponential extends MathFunction {
-    private base: number;
+    private _base: number;
 
     constructor(child: Expression, base: number) {
         super(child);
 
-        this.base = base;
+        this._base = base;
     }
 
     public calculate(...variable: number[]) {
@@ -52,7 +52,7 @@ export class Exponential extends MathFunction {
 
         if(!childValue) return childValue;
 
-        return this.base**childValue;
+        return this._base**childValue;
     }
 }
 
@@ -72,17 +72,6 @@ export class Logarithm extends MathFunction {
         if(!childValue) return childValue;
 
         return Math.log10(childValue) / Math.log10(this.base);
-    }
-}
-
-// trocar para operação
-export class Pow extends MathFunction {
-    constructor(child: Expression, ) {
-        super(child);
-    }
-
-    public calculate(...variable: number[]) {
-        return 0;
     }
 }
 

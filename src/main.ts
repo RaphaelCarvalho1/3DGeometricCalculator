@@ -1,7 +1,7 @@
 import { Polynomial, Cos, Exponential } from "./math-function";
+import { Sum } from "./operation"
 
-
-class Main {
+export class Main {
     private _canvas = document.querySelector("#glcanvas");
     public static _gl: WebGL2RenderingContext;
 
@@ -18,4 +18,6 @@ const cos = new Cos(p);
 
 const exp = new Exponential(cos, 2);
 
-console.log(exp.calculate(1, 2))
+const sum = new Sum(p, cos);
+
+console.log(sum.calculate(1, 2))

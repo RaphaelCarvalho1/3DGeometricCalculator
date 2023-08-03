@@ -1,21 +1,7 @@
-/*import { Mesh } from './mesh';
+import { Mesh } from './mesh';
 
-interface MathObject {
+/*export interface MathObject {
     meshFromObj(): Mesh;
-}
-
-class Equation {
-    private _isoValue: number;
-    private _function: RealFunction;
-
-    constructor(isoValue: number, realFunction: RealFunction) {
-        this._isoValue = isoValue;
-        this._function = realFunction;
-    }
-
-    public meshFromObj(minX: number, maxX: number, minY: number, maxY: number, minZ: number, maxZ: number, stride: number): Mesh {
-        return;
-    }
 }
 
 class Point {
@@ -88,8 +74,20 @@ class vecFuntion implements MathObject {
     }
 }
 
-*/
+class Equation {
+    private _isoValue: number;
+    private _function: RealFunction;
 
+    constructor(isoValue: number, realFunction: RealFunction) {
+        this._isoValue = isoValue;
+        this._function = realFunction;
+    }
+
+    public meshFromObj(minX: number, maxX: number, minY: number, maxY: number, minZ: number, maxZ: number, stride: number): Mesh {
+        return;
+    }
+}
+*/
 export interface Expression {
     calculate(varible: number | number[]): number | undefined;
 }
