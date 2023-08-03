@@ -1,6 +1,9 @@
 import { vec3, mat4 } from 'gl-matrix';
 
-export class Camera {
+class Camera {
+
+    public static instance: Camera = new Camera();
+
     private _eye: vec3 = vec3.create();
     private _lookAt: vec3 = vec3.create();
     private _up: vec3 = vec3.create();
@@ -49,3 +52,5 @@ export class Camera {
 
     }
 }
+
+export let camera = (() => Camera.instance)();

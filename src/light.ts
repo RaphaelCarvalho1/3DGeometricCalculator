@@ -1,7 +1,14 @@
 import { vec3, vec4 } from 'gl-matrix';
 import { Main } from './main';
 
-export class Light {
+class Light {
+
+    private static _instance: Light =  new Light();
+
+    public static get instance(){
+        return Light._instance;
+    }
+
     private _pos: vec4;
     private _amb_c: vec4;
     private _amb_k: number;
@@ -52,3 +59,5 @@ export class Light {
         Main._gl!.uniform1f(espPLoc, this._esp_p);
     }
 }
+
+export let light = (()=> Light.instance)()

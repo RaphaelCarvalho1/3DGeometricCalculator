@@ -1,17 +1,15 @@
-import { Camera } from './camera';
 import { Mesh } from './mesh';
-import { Light } from './light'
+import { camera } from './camera';
+import { light } from './light'
 
 export class Scene {
     private _meshes: Mesh[];
-    private _cam: Camera;
-    private _light: Light;
+    public _cam = camera;
+    private _light = light;
 
     constructor() {
         //adicionar eixos e plano xy
         this._meshes = [];
-        this._cam = new Camera();
-        this._light = new Light();
     }
 
     public appendMesh(mesh: Mesh): void {

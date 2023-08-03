@@ -4,6 +4,7 @@ import { Shader } from './shader';
 import { Main } from './main';
 import { pointLineVert } from './shaders/point-line-vert';
 import { pointLineFrag } from './shaders/point-line-frag';
+import { camera } from './camera';
 
 export abstract class Mesh {
     protected _model: mat4 = mat4.create();
@@ -69,7 +70,7 @@ abstract class ArrayMesh extends Mesh {
         this.createVAO();
     }
 
-    private createVAO() {
+    protected createVAO() {
         const positionLoc = Main._gl!.getAttribLocation(this._program!, "position");
         const positionBuffer = Shader.createBuffer(Main._gl!.ARRAY_BUFFER, new Float32Array(this._coords));
 
@@ -91,15 +92,15 @@ class CurveMesh extends ArrayMesh {
         Main._gl!.cullFace(Main._gl!.BACK);
     
         this.updateModelMatrix();
+
+        const mvpLoc = Main._gl.getUniformLocation(this._program!, "MVP");
+
+        const mvp = mat4.create();
+
+        mat4.multiply(mvp, camera.viewProjection, this._model);
     
-        const model = this.model;
-        const view = cam.getView();
-        const proj = cam.getProj();
-    
-        Main._gl!.useProgram(this.program);
-        Main._gl!.uniformMatrix4fv(this.uModelLoc, false, model);
-        Main._gl!.uniformMatrix4fv(this.uViewLoc, false, view);
-        Main._gl!.uniformMatrix4fv(this.uProjectionLoc, false, proj);
+        Main._gl!.useProgram(this._program!);
+        Main._gl!.uniformMatrix4fv(mvpLoc, false, mvp);
     
         Main._gl!.drawArrays(Main._gl!.LINE_STRIP, 0, this._coords.length/4);
     
@@ -115,6 +116,24 @@ class PointMesh extends ArrayMesh {
     }
 
     public draw() {
-        
+        Main._gl!.frontFace(Main._gl!.CCW);
+    
+        Main._gl!.enable(Main._gl!.CULL_FACE);
+        Main._gl!.cullFace(Main._gl!.BACK);
+    
+        this.updateModelMatrix();
+
+        const mvpLoc = Main._gl.getUniformLocation(this._program!, "MVP");
+
+        const mvp = mat4.create();
+
+        mat4.multiply(mvp, camera.viewProjection, this._model);
+    
+        Main._gl!.useProgram(this._program!);
+        Main._gl!.uniformMatrix4fv(mvpLoc, false, mvp);
+    
+        Main._gl!.drawArrays(Main._gl!.POINTS, 0, this._coords.length/4);
+    
+        Main._gl!.disable(Main._gl!.CULL_FACE);
     }
 }
