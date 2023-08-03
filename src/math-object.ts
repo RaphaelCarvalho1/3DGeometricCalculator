@@ -1,6 +1,6 @@
 import { Mesh } from './mesh';
 
-/*export interface MathObject {
+export interface MathObject {
     meshFromObj(): Mesh;
 }
 

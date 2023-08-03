@@ -1,35 +1,30 @@
 import { Main } from "./main"
 
 export class Shader {
-    public static createBuffer(type: GLenum, data: Float32Array): WebGLBuffer | null {
-        if (data.length === 0) {
-            console.warn('Data is empty');
-            return null;
-        }
+    public static createBuffer(type: GLenum, data: Float32Array): WebGLBuffer {
+        if (data.length === 0) 
+            throw new Error('Data is empty');
+        
 
-        if(!(data.buffer instanceof ArrayBuffer && data.byteLength)) {
-            console.warn(`Data isn't an ArrayBuffer instance`);
-            return null;
-        }
+        if(!(data.buffer instanceof ArrayBuffer && data.byteLength)) 
+            throw new Error(`Data isn't an ArrayBuffer instance`);
+        
 
         const buffer = Main._gl.createBuffer();
         Main._gl.bindBuffer(type, buffer);
         Main._gl.bufferData(type, data, Main._gl.STATIC_DRAW);
 
-        return buffer;
+        return buffer!;
     }
 
-    public static createProgram(vert: WebGLShader, frag: WebGLShader): WebGLProgram | null {
-        if(!(vert || frag)) {
-            console.warn('Invalid createProgram arguments');
-        }
+    public static createProgram(vert: WebGLShader, frag: WebGLShader): WebGLProgram {
+        if(!(vert || frag)) 
+            throw new Error('Invalid createProgram arguments');
 
         const program = Main._gl.createProgram();
 
-        if(!program) {
-            console.warn('Program creation failure');
-            return null;
-        }
+        if(!program) 
+            throw new Error('Program creation failure');
 
         Main._gl.attachShader(program, vert);
         Main._gl.attachShader(program, frag);
@@ -65,12 +60,11 @@ export class Shader {
         return vao;
     }
 
-    public static createShader(type: GLenum, source: string): WebGLShader | null {
+    public static createShader(type: GLenum, source: string): WebGLShader {
         const shader = Main._gl.createShader(type);
 
         if (!shader) {
-            console.warn('Shader creation failure');
-            return null;
+            throw new Error('Shader creation failure');
         }
 
         Main._gl.shaderSource(shader, source);
