@@ -1,11 +1,13 @@
 class Vertex {
     private _id: number;
     private _position: number[];
+    private _normal: number[];
     private _he?: HalfEdge;
 
-    constructor(id: number, position: number[]) {
+    constructor(id: number, position: number[], normal: number[]) {
         this._id = id;
         this._position = position;
+        this._normal = normal;
     }
 
     public get id(): number {
@@ -62,22 +64,67 @@ class HalfEdge {
     public set face(face: Face) {
         this._face = face;
     }
+
+    public set opposite(opposite: HalfEdge) {
+        this._opposite = opposite;
+    }
 }
 
 export class HalfEdgeDS {
-    private _halfEdges?: Array<HalfEdge>;
-    private _vertices?: Array<Vertex>;
-    private _faces?: Array<Face>;
+    private _halfEdges?: HalfEdge[];
+    private _vertices?: Vertex[];
+    private _faces?: Face[];
 
-    public build(coords: Array<number>, indices: Array<number>) {
+    public build(coords: number[], indices: number[], normals: number[]) {
+        for(let i=0; i<coords.length; i+=4) {
+            const id = i/4;
+            const position = coords.slice(i, i+4);
+            const normal = normals.slice(i, i+4);
 
+            this._vertices?.push(new Vertex(id, position, normal));
+        }
+
+        for(let i=0; i<indices.length; i++) {
+            let he = [];
+
+            for (let j=0; j<3; j++) {
+                const vertex = this._vertices![indices [i + j]];
+                he.push(new HalfEdge(vertex));
+            }
+
+            const face = new Face(he[0]);
+            this._faces?.push(face);
+
+            for(let j=0; j<3; j++) {
+                he[i].face = face;
+                he[i].next = he[(i+1)%3];
+                this._halfEdges?.push(he[i]);
+            }
+        }
+
+        this.computeOpposites();
     }
 
     private computeOpposites(): void {
+        const visitedHEs: Map<string, HalfEdge> = new Map();
 
-    }
+        for(let he of this._halfEdges!) {
+            const initialVertex = he.vertex;
+            const finalVertex = he.next.vertex;
 
-    private computeVertexHe(): void {
-        
+            const heKey = `${Math.min(initialVertex.id, finalVertex.id)},${Math.max(initialVertex.id, finalVertex.id)}`;
+
+            if(!initialVertex.he) initialVertex.he = he;
+
+            if(visitedHEs.has(heKey)) {
+                const op = visitedHEs.get(heKey)!;
+                op.opposite = he;
+                he.opposite = op;
+
+                visitedHEs.delete(heKey);
+            } else {
+                visitedHEs.set(heKey, he);
+            }
+        }
     }
 }
