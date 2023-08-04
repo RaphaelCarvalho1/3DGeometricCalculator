@@ -1,22 +1,22 @@
-import { Mesh } from './mesh';
-/*
 export interface MathObject {
-    meshFromObj(): Mesh;
+    dataFromObj(): number[];
+    dataFromObj(minX: number, maxX: number, minY: number, maxY: number, stride: number): number[];
+    dataFromObj(minX: number, maxX: number, minY: number, maxY: number, minZ: number, maxZ: number, stride: number): number[];
 }
 
-class Point {
+class Point implements MathObject{
     private _coordinates: number[];
 
     constructor(x: number, y: number, z: number) {
         this._coordinates = [x, y, z];
     }
 
-    public meshFromObj(): Mesh {
-        return;
+    public dataFromObj(): number[] {
+        return this._coordinates;
     }
 }
 
-class Vector {
+class Vector implements MathObject{
     private _initialPoint: Point;
     private _terminalPoint: Point;
 
@@ -25,8 +25,8 @@ class Vector {
         this._terminalPoint = terminalPoint;
     }
 
-    public meshFromObj(): Mesh {
-        return;
+    public dataFromObj(): number[] {
+        return [...this._initialPoint.dataFromObj(), ...this._terminalPoint.dataFromObj()];
     }
 }
 
@@ -37,44 +37,57 @@ class Constant {
         this._value = value;
     }
 
-    public meshFromObj(): Mesh {
-        return;
+    public dataFromObj(): number[] {
+        return [this._value];
     }
 }
 
-class RealFunction implements MathObject {
+export class RealFunction implements MathObject {
     private _domainDimension: number;
+    private expression: Expression;
 
-    constructor(domainDimension: number) {
+    constructor(domainDimension: number, expression: Expression) {
         this._domainDimension = domainDimension;
+        this.expression = expression;
     }
 
     public value(x: number | number[]): number {
-        return 6;
+        const entryDim = (typeof x === "number")? 1: x.length;
+
+        if(this._domainDimension !== entryDim)
+            throw new Error("The entry dimension needs to be "+this._domainDimension);
+
+        const variables = (entryDim===1)? [x] : [...x as number[]];
+
+        return eval(`var _a;
+        (_a = this.expression).calculate.apply(_a, variables);`);
     }
 
-    public meshFromObj(minX: number, maxX: number, minY: number, maxY: number, minZ: number, maxZ: number, stride: number): Mesh {
-        return;
+    dataFromObj(minX?: number, maxX?: number, minY?: number, maxY?: number, stride?: number): number[] {
+        return [1];
     }
 }
 
 class vecFuntion implements MathObject {
     private _counterDomainDimension: number;
+    private _functions: RealFunction[];
 
-    constructor(counterDomainDimension: number) {
-        this._counterDomainDimension = counterDomainDimension;
+    constructor(...functions: RealFunction[]) {
+        this._counterDomainDimension = functions.length;
+
+        this._functions = functions;
     }
 
     public value(x: number | number[]): number[] {
-        return [6]; 
+        return this._functions.map(func => func.value(x));   
     }
 
-    public meshFromObj(): Mesh {
-        return;
+    public dataFromObj(): number[] {
+        return [1];
     }
 }
 
-class Equation {
+class Equation implements MathObject{
     private _isoValue: number;
     private _function: RealFunction;
 
@@ -83,14 +96,11 @@ class Equation {
         this._function = realFunction;
     }
 
-    public meshFromObj(minX: number, maxX: number, minY: number, maxY: number, minZ: number, maxZ: number, stride: number): Mesh {
-        return;
+    public dataFromObj(minX?: number, maxX?: number, minY?: number, maxY?: number, minZ?: number, maxZ?: number, stride?: number): number[] {
+        return [1];
     }
 }
-*/
+
 export interface Expression {
     calculate(varible: number | number[]): number | undefined;
 }
-
-
-
