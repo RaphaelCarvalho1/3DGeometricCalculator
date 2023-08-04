@@ -1,7 +1,7 @@
 import { Main } from './main'
 
 export class Shader {
-    public static createBuffer(type: GLenum, data: Float32Array): WebGLBuffer {
+    public static createBuffer(type: GLenum, data: Float32Array | Uint32Array): WebGLBuffer {
         if (data.length === 0) 
             throw new Error('Data is empty');
         

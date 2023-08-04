@@ -1,13 +1,28 @@
 import { vec3, mat4 } from 'gl-matrix';
+import { Main } from './main';
+import { Shader } from './shader';
+import { pointLineVert } from './shaders/point-line-vert';
+import { pointLineFrag } from './shaders/point-line-frag';
 
 export abstract class Mesh {
-    protected _model: mat4 = mat4.create();
+    protected _model: mat4;
     protected _vertShader?: WebGLShader;
     protected _fragShader?: WebGLShader;
     protected _program?: WebGLProgram;
-    protected _position: vec3 = vec3.create();
-    protected _scale: vec3 = vec3.create();
-    protected _rotateAngles: vec3 = vec3.create();
+    protected _position: vec3;
+    protected _scale: vec3;
+    protected _rotateAngles: vec3;
+    protected _vaoLoc?: WebGLVertexArrayObject | null;
+
+    constructor() {
+        this._model = mat4.create();
+        this._vertShader = Shader.createShader(Main._gl!.VERTEX_SHADER, pointLineVert);
+        this._fragShader = Shader.createShader(Main._gl!.VERTEX_SHADER, pointLineFrag);
+        this._program = Shader.createProgram(this._vertShader!, this._fragShader!);
+        this._position = vec3.create();
+        this._scale = vec3.create();
+        this._rotateAngles = vec3.create();
+    }
     
     public set position(position: vec3) {
         this._position = position;

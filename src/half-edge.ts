@@ -22,6 +22,10 @@ class Vertex {
         return this._he!;
     }
 
+    public get normal(): number[] {
+        return this._normal;
+    }
+
     public set he(he: HalfEdge) {
         this._he = he;
     }
@@ -74,6 +78,36 @@ export class HalfEdgeDS {
     private _halfEdges?: HalfEdge[];
     private _vertices?: Vertex[];
     private _faces?: Face[];
+
+    public get coords(): number[] {
+        let coords = [];
+
+        for(let vertex of this._vertices!) {
+            coords.push(...vertex.position);
+        }
+
+        return coords;
+    }
+
+    public get indices(): number[] {
+        let indices = [];
+
+        for(let he of this._halfEdges!) {
+            indices.push(he.vertex.id);
+        }
+
+        return indices;
+    }
+
+    public get normals(): number[] {
+        let normals = [];
+
+        for(let vertex of this._vertices!) {
+            normals.push(...vertex.normal);
+        }
+
+        return normals;
+    }
 
     public build(coords: number[], indices: number[], normals: number[]) {
         for(let i=0; i<coords.length; i+=4) {
