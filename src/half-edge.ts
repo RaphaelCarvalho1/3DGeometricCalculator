@@ -109,7 +109,11 @@ export class HalfEdgeDS {
         return normals;
     }
 
-    public build(coords: number[], indices: number[], normals: number[]) {
+    public get faces(): Face[] {
+        return this._faces!;
+    }
+
+    public build(coords: number[], indices: number[], normals: number[]): void {
         for(let i=0; i<coords.length; i+=4) {
             const id = i/4;
             const position = coords.slice(i, i+4);

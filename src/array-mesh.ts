@@ -13,7 +13,7 @@ export abstract class ArrayMesh extends Mesh {
     }
 
     protected createVAO() {
-        const positionLoc = Main._gl!.getAttribLocation(this._program!, "position");
+        const positionLoc = Main._gl!.getAttribLocation(this._program, "position");
         const positionBuffer = Shader.createBuffer(Main._gl!.ARRAY_BUFFER, new Float32Array(this._coords));
 
         this._vaoLoc = Shader.createVAO({pos: positionLoc, buffer: positionBuffer});

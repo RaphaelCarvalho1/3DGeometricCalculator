@@ -39,13 +39,12 @@ export class Shader {
         return program;
     }
 
-    public static createVAO(...attributes: {pos: GLint, buffer: WebGLBuffer}[]): WebGLVertexArrayObject | null {
+    public static createVAO(...attributes: {pos: GLint, buffer: WebGLBuffer}[]): WebGLVertexArrayObject {
         const vao = Main._gl!.createVertexArray();
 
-        if(!vao) {
-            console.warn('VAO creation failure');
-            return null;
-        }
+        if(!vao) 
+            throw new Error('VAO creation failure');
+        
 
         Main._gl!.bindVertexArray(vao);
         const size = 4;
@@ -63,9 +62,9 @@ export class Shader {
     public static createShader(type: GLenum, source: string): WebGLShader {
         const shader = Main._gl!.createShader(type);
 
-        if (!shader) {
+        if (!shader) 
             throw new Error('Shader creation failure');
-        }
+        
 
         Main._gl!.shaderSource(shader, source);
         Main._gl!.compileShader(shader);

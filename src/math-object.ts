@@ -4,7 +4,7 @@ export interface MathObject {
     dataFromObj(minX: number, maxX: number, minY: number, maxY: number, minZ: number, maxZ: number, stride: number): number[];
 }
 
-class Point implements MathObject{
+class Point implements MathObject {
     private _coordinates: number[];
 
     constructor(x: number, y: number, z: number) {
@@ -16,7 +16,7 @@ class Point implements MathObject{
     }
 }
 
-class Vector implements MathObject{
+class Vector implements MathObject {
     private _initialPoint: Point;
     private _terminalPoint: Point;
 
@@ -44,11 +44,11 @@ class Constant {
 
 export class RealFunction implements MathObject {
     private _domainDimension: number;
-    private expression: Expression;
+    private _expression: Expression;
 
     constructor(domainDimension: number, expression: Expression) {
         this._domainDimension = domainDimension;
-        this.expression = expression;
+        this._expression = expression;
     }
 
     public value(x: number | number[]): number {
@@ -60,7 +60,7 @@ export class RealFunction implements MathObject {
         const variables = (entryDim===1)? [x] : [...x as number[]];
 
         return eval(`var _a;
-        (_a = this.expression).calculate.apply(_a, variables);`);
+        (_a = this._expression).calculate.apply(_a, variables);`);
     }
 
     dataFromObj(minX?: number, maxX?: number, minY?: number, maxY?: number, stride?: number): number[] {
@@ -87,7 +87,7 @@ class vecFuntion implements MathObject {
     }
 }
 
-class Equation implements MathObject{
+class Equation implements MathObject {
     private _isoValue: number;
     private _function: RealFunction;
 

@@ -24,7 +24,7 @@ export class Polynomial extends MathFunction {
         this._independentTerm = independentTerm;
     }
 
-    public calculate(...variable: number[]){
+    public calculate(...variable: number[]) {
         let result = this._independentTerm;
 
         for(let i = 0; i < this._coefficientsList.length; i++){
