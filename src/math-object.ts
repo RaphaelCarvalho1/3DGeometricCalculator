@@ -30,18 +30,6 @@ class Vector implements MathObject {
     }
 }
 
-class Constant {
-    private _value: number;
-
-    constructor(value: number) {
-        this._value = value;
-    }
-
-    public dataFromObj(): number[] {
-        return [this._value];
-    }
-}
-
 export class RealFunction implements MathObject {
     private _domainDimension: number;
     private _expression: Expression;

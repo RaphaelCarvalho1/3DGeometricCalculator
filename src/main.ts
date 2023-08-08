@@ -48,3 +48,9 @@ const exp = new Exponential(cos, 2);
 const sum = new Sum(p, cos);
 
 console.log(sum.calculate(1, 2))
+
+type tipo = Sum | number;
+
+const arrei: tipo[] = [sum, 1, new Sum(exp, p)];
+
+console.log(arrei);
