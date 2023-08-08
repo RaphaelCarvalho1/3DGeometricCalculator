@@ -1,3 +1,4 @@
+import { mathObjManager } from './math-graph';
 import { Expression } from './math-object';
 
 abstract class MathFunction implements Expression {
@@ -7,33 +8,57 @@ abstract class MathFunction implements Expression {
         this._child = child;
     }
 
-    public abstract calculate(...variable: number[]): number | undefined;
+    public abstract calculate(...variable: number[]): number | number[] | undefined;
 }
 
-export class Polynomial extends MathFunction {
-    
-    private _coefficientsList: number[][] = [];
+export class Scalar extends MathFunction{
 
-    private _independentTerm: number;
+    private _scalar: number;
 
-    constructor(independentTerm: number, ...coefficients: number[][]) {
+    constructor(scalar: number){
         super();
 
-        this._coefficientsList = coefficients;
+        this._scalar = scalar;
+    }
 
-        this._independentTerm = independentTerm;
+    public calculate(...variable: number[]): number {
+        return this._scalar;
+    }
+
+}
+
+export class Vec extends MathFunction{
+
+    private _vec: number[];
+
+    constructor(vec: number[]){
+        super();
+
+        this._vec = vec;
+    }
+
+    public calculate(...variable: number[]): number[]{
+        return this._vec;
+    }
+
+}
+
+export class Variable extends MathFunction {
+    
+    private _varIndex: number;
+
+    constructor(varIndex: number) {
+        super();
+
+        this._varIndex = varIndex;
     }
 
     public calculate(...variable: number[]) {
-        let result = this._independentTerm;
 
-        for(let i = 0; i < this._coefficientsList.length; i++){
-            result += this._coefficientsList[i]
-            .reduce((ac, curr, j) => ac += variable[i]**(j+1)*curr, 0);
+        if(this._varIndex>= variable.length)
+            return;
 
-        }
-
-        return result;
+        return variable[this._varIndex];
     }
 }
 
@@ -132,5 +157,26 @@ export class Module extends MathFunction {
         if(!childValue) return childValue;
 
         return Math.abs(childValue);
+    }
+}
+
+export class Reference extends MathFunction{
+    private key: string;
+    
+    constructor(key: string){
+        super();
+
+        this.key = key;
+    }
+
+    public calculate(...variable: number[]): number | number[] | undefined {
+        const obj = mathObjManager.getMathObject(this.key);
+
+        if(typeof obj === "number")
+            return obj;
+
+        const result = obj.value(...variable);
+
+        return result;
     }
 }

@@ -52,6 +52,12 @@ class MathGraphNode {
 class MathObjManager {
     private _mathObjects: MathGraph = new MathGraph();
 
+    private static _instance: MathObjManager = new MathObjManager();
+
+    public static get instance(){
+        return this._instance;
+    }
+
     public newObj(expression: string) {
         //usar parser
     }
@@ -61,3 +67,5 @@ class MathObjManager {
         return node.object;
     }
 }
+
+export let mathObjManager = (() => MathObjManager.instance)();

@@ -2,6 +2,8 @@ export interface MathObject {
     dataFromObj(): number[];
     dataFromObj(minX: number, maxX: number, minY: number, maxY: number, stride: number): number[];
     dataFromObj(minX: number, maxX: number, minY: number, maxY: number, minZ: number, maxZ: number, stride: number): number[];
+
+    value(...x: number[]): number | number[] | undefined;
 }
 
 class Point implements MathObject {
@@ -9,6 +11,10 @@ class Point implements MathObject {
 
     constructor(x: number, y: number, z: number) {
         this._coordinates = [x, y, z];
+    }
+
+    public value(...x: number[]): number[] {
+        return this._coordinates;
     }
 
     public dataFromObj(): number[] {
@@ -25,6 +31,12 @@ class Vector implements MathObject {
         this._terminalPoint = terminalPoint;
     }
 
+    public value(...x: number[]): number[] {
+        const initialArray = this._initialPoint.value();
+
+        return this._terminalPoint.value().map((val, i)=>val - initialArray[i]);
+    }
+
     public dataFromObj(): number[] {
         return [...this._initialPoint.dataFromObj(), ...this._terminalPoint.dataFromObj()];
     }
@@ -39,7 +51,7 @@ export class RealFunction implements MathObject {
         this._expression = expression;
     }
 
-    public value(x: number | number[]): number {
+    public value(...x: number[]): number {
         const entryDim = (typeof x === "number")? 1: x.length;
 
         if(this._domainDimension !== entryDim)
@@ -66,8 +78,8 @@ class vecFuntion implements MathObject {
         this._functions = functions;
     }
 
-    public value(x: number | number[]): number[] {
-        return this._functions.map(func => func.value(x));   
+    public value(...x: number[]): number[] {
+        return this._functions.map(func => func.value(...x));   
     }
 
     public dataFromObj(): number[] {
@@ -84,11 +96,15 @@ class Equation implements MathObject {
         this._function = realFunction;
     }
 
+    value(...x: number[]): undefined {
+
+    }
+
     public dataFromObj(minX?: number, maxX?: number, minY?: number, maxY?: number, minZ?: number, maxZ?: number, stride?: number): number[] {
         return [1];
     }
 }
 
 export interface Expression {
-    calculate(varible: number | number[]): number | undefined;
+    calculate(...variable: number[]): number | number[] | undefined;
 }
