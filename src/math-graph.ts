@@ -1,29 +1,30 @@
-import { Expression } from './math-object';
 import { MathObject } from './math-object';
 
-type mathObject = MathObject | number;
+export type mathObject = MathObject | number;
 
 class MathGraph {
     private _nodesMap: Map<string, MathGraphNode> = new Map();
+
+    public getGraphNode(key: string) : MathGraphNode {
+        return this._nodesMap.get(key)!;
+    }
 
     public addNode(key: string, value: mathObject): void {
         this._nodesMap.set(key, new MathGraphNode(value));
     }
 
-    public deleteNode(key: string){
+    public deleteNode(key: string) {
+        const node = this._nodesMap.get(key);
+        
+        for(let neighbor of node!.neighbors) 
+            this._nodesMap.delete(neighbor);
+
         this._nodesMap.delete(key);
     }
 
-    public addEdge(key1: string, key2: string){
-
-    }
-
-    public removeEdge(key1: string, key2: string){
-        
-    }
-
-    public getNeighbors(key:string): Expression[] {
-        
+    public addEdge(key1: string, key2: string): void {
+        const node = this._nodesMap.get(key1);
+        node!.addNeighbor(key2);
     }
 }
 
@@ -35,7 +36,15 @@ class MathGraphNode {
         this._object = object;
     }
 
-    addNeighbor(key: string){
+    public get neighbors(): string[] {
+        return this._neighbors;
+    }
+
+    public get object(): mathObject {
+        return this._object;
+    }
+
+    addNeighbor(key: string) {
         this._neighbors.push(key);
     }
 }
@@ -44,6 +53,11 @@ class MathObjManager {
     private _mathObjects: MathGraph = new MathGraph();
 
     public newObj(expression: string) {
+        //usar parser
+    }
 
+    public getMathObject(key: string): mathObject {
+        const node = this._mathObjects.getGraphNode(key);
+        return node.object;
     }
 }

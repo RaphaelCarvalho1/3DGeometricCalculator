@@ -1,7 +1,7 @@
-/*import { MathObject } from './math-object';
+/*import { mathObject } from './math-object';
 
 class Parser {
-    public static parse(expression: string): MathObject {
+    public static parse(expression: string): mathObject {
         return;
     }
 }*/
