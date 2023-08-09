@@ -1,5 +1,4 @@
-import { mathObjManager } from './math-graph';
-import { Expression } from './math-object';
+import { Expression } from './expression';
 
 abstract class MathFunction implements Expression {
     protected _child?: Expression;
@@ -9,57 +8,6 @@ abstract class MathFunction implements Expression {
     }
 
     public abstract calculate(...variable: number[]): number | number[] | undefined;
-}
-
-export class Scalar extends MathFunction{
-
-    private _scalar: number;
-
-    constructor(scalar: number){
-        super();
-
-        this._scalar = scalar;
-    }
-
-    public calculate(...variable: number[]): number {
-        return this._scalar;
-    }
-
-}
-
-export class Vec extends MathFunction{
-
-    private _vec: number[];
-
-    constructor(vec: number[]){
-        super();
-
-        this._vec = vec;
-    }
-
-    public calculate(...variable: number[]): number[]{
-        return this._vec;
-    }
-
-}
-
-export class Variable extends MathFunction {
-    
-    private _varIndex: number;
-
-    constructor(varIndex: number) {
-        super();
-
-        this._varIndex = varIndex;
-    }
-
-    public calculate(...variable: number[]) {
-
-        if(this._varIndex>= variable.length)
-            return;
-
-        return variable[this._varIndex];
-    }
 }
 
 export class Exponential extends MathFunction {
@@ -157,26 +105,5 @@ export class Module extends MathFunction {
         if(!childValue) return childValue;
 
         return Math.abs(childValue);
-    }
-}
-
-export class Reference extends MathFunction{
-    private key: string;
-    
-    constructor(key: string){
-        super();
-
-        this.key = key;
-    }
-
-    public calculate(...variable: number[]): number | number[] | undefined {
-        const obj = mathObjManager.getMathObject(this.key);
-
-        if(typeof obj === "number")
-            return obj;
-
-        const result = obj.value(...variable);
-
-        return result;
     }
 }

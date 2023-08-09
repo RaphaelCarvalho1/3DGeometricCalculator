@@ -1,3 +1,5 @@
+import { Expression } from './expression';
+
 export interface MathObject {
     dataFromObj(): number[];
     dataFromObj(minX: number, maxX: number, minY: number, maxY: number, stride: number): number[];
@@ -97,7 +99,7 @@ class Equation implements MathObject {
     }
 
     value(...x: number[]): undefined {
-
+        return undefined;
     }
 
     public dataFromObj(minX?: number, maxX?: number, minY?: number, maxY?: number, minZ?: number, maxZ?: number, stride?: number): number[] {
@@ -105,6 +107,3 @@ class Equation implements MathObject {
     }
 }
 
-export interface Expression {
-    calculate(...variable: number[]): number | number[] | undefined;
-}
