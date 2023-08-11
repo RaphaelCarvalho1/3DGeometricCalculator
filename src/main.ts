@@ -1,6 +1,4 @@
-import { Scene } from './scene'
-import { Polynomial, Cos, Exponential } from './math-function';
-import { Sum } from './operation'
+import { Scene } from './scene';
 import * as CONST from './constants';
 
 export class Main {
@@ -28,6 +26,8 @@ export class Main {
         Main._gl!.clear(Main._gl!.COLOR_BUFFER_BIT | Main._gl!.DEPTH_BUFFER_BIT);
 
         this._scene.draw();
+
+        requestAnimationFrame(this.draw.bind(this));
     }
 }
 
@@ -35,22 +35,3 @@ window.onload = () => {
     const geometricCalculator = new Main();
     geometricCalculator.draw();
 }
-
-
-// f(x, y) = 2x² + x + 3y
-
-const p = new Polynomial(0, [1, 2], [3]);
-
-const cos = new Cos(p);
-
-const exp = new Exponential(cos, 2);
-
-const sum = new Sum(p, cos);
-
-console.log(sum.calculate(1, 2))
-
-type tipo = Sum | number;
-
-const arrei: tipo[] = [sum, 1, new Sum(exp, p)];
-
-console.log(arrei);
