@@ -75,14 +75,20 @@ class HalfEdge {
 }
 
 export class HalfEdgeDS {
-    private _halfEdges?: HalfEdge[];
-    private _vertices?: Vertex[];
-    private _faces?: Face[];
+    private _halfEdges: HalfEdge[];
+    private _vertices: Vertex[];
+    private _faces: Face[];
+
+    constructor() {
+        this._halfEdges = [];
+        this._vertices = [];
+        this._faces = [];
+    }
 
     public get coords(): number[] {
         let coords = [];
 
-        for(let vertex of this._vertices!) {
+        for(let vertex of this._vertices) {
             coords.push(...vertex.position);
         }
 
@@ -92,7 +98,7 @@ export class HalfEdgeDS {
     public get indices(): number[] {
         let indices = [];
 
-        for(let he of this._halfEdges!) {
+        for(let he of this._halfEdges) {
             indices.push(he.vertex.id);
         }
 
@@ -102,7 +108,7 @@ export class HalfEdgeDS {
     public get normals(): number[] {
         let normals = [];
 
-        for(let vertex of this._vertices!) {
+        for(let vertex of this._vertices) {
             normals.push(...vertex.normal);
         }
 
@@ -110,33 +116,33 @@ export class HalfEdgeDS {
     }
 
     public get faces(): Face[] {
-        return this._faces!;
+        return this._faces;
     }
 
     public build(coords: number[], indices: number[], normals: number[]): void {
-        for(let i=0; i<coords.length; i+=4) {
-            const id = i/4;
-            const position = coords.slice(i, i+4);
-            const normal = normals.slice(i, i+4);
+        for(let i=0; i<coords.length; i+=3) {
+            const id = i/3;
+            const position = coords.slice(i, i+3);
+            const normal = normals.slice(i, i+3);
 
-            this._vertices?.push(new Vertex(id, position, normal));
+            this._vertices.push(new Vertex(id, position, normal));
         }
 
-        for(let i=0; i<indices.length; i++) {
+        for(let i=0; i<indices.length; i+=3) {
             let he = [];
 
             for (let j=0; j<3; j++) {
-                const vertex = this._vertices![indices [i + j]];
+                const vertex = this._vertices[indices [i + j]];
                 he.push(new HalfEdge(vertex));
             }
 
             const face = new Face(he[0]);
-            this._faces?.push(face);
+            this._faces.push(face);
 
             for(let j=0; j<3; j++) {
-                he[i].face = face;
-                he[i].next = he[(i+1)%3];
-                this._halfEdges?.push(he[i]);
+                he[j].face = face;
+                he[j].next = he[(j+1)%3];
+                this._halfEdges.push(he[j]);
             }
         }
 
@@ -146,7 +152,7 @@ export class HalfEdgeDS {
     private computeOpposites(): void {
         const visitedHEs: Map<string, HalfEdge> = new Map();
 
-        for(let he of this._halfEdges!) {
+        for(let he of this._halfEdges) {
             const initialVertex = he.vertex;
             const finalVertex = he.next.vertex;
 

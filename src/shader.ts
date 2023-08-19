@@ -47,8 +47,8 @@ export class Shader {
         
 
         Main._gl!.bindVertexArray(vao);
-        const size = 4;
-        const type = Main._gl!.FLOAT;
+        const size = 3;
+        const type = Main._gl!.FLOAT; 
 
         for(let attribute of attributes) {
             Main._gl!.enableVertexAttribArray(attribute['pos']);
@@ -69,8 +69,8 @@ export class Shader {
         Main._gl!.shaderSource(shader, source);
         Main._gl!.compileShader(shader);
 
-        if (!Main._gl!.getShaderParameter(shader, Main._gl!.LINK_STATUS)) {
-            const info = Main._gl!.getProgramInfoLog(shader);
+        if (!Main._gl!.getShaderParameter(shader, Main._gl!.COMPILE_STATUS)) {
+            const info = Main._gl!.getShaderInfoLog(shader);
             
             Main._gl!.deleteShader(shader);
             console.warn('Loading Shader failure:' + info);

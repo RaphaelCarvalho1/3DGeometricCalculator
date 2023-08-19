@@ -1,4 +1,4 @@
-import { Expression } from './math-object';
+import { Expression } from './expression';
 
 abstract class Operation implements Expression {
     protected _operand1: Expression;
@@ -54,7 +54,7 @@ export class Division extends Operation {
         const result1 = eval(`var _a;
             (_a = this._operand1).calculate.apply(_a, variable);`);
         
-            return result1 / result2;
+        return result1 / result2;
     }
 }
 
@@ -82,6 +82,9 @@ export class Pow extends Operation {
             (_a = this._operand1).calculate.apply(_a, variable);`);
         const result2 = eval(`var _a;
             (_a = this._operand2).calculate.apply(_a, variable);`);
+        
+        if(result1 === 0  && result2 === 0) return undefined;
+        
         return result1 ** result2;
     }
 }
