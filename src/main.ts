@@ -1,5 +1,5 @@
 import { Scene } from './scene'
-import { Polynomial, Cos, Exponential } from './math-function';
+import { Variable, Cos, Exponential } from './math-function';
 import { Sum } from './operation'
 import * as CONST from './constants';
 
@@ -37,20 +37,16 @@ window.onload = () => {
 }
 
 
-// f(x, y) = 2x² + x + 3y
+// f(x, y) = cos(x) + 2^y
 
-const p = new Polynomial(0, [1, 2], [3]);
+const p = new Variable(0);
+
+const v = new Variable(1);
 
 const cos = new Cos(p);
 
-const exp = new Exponential(cos, 2);
+const exp = new Exponential(v, 2);
 
-const sum = new Sum(p, cos);
+const sum = new Sum(exp, cos);
 
 console.log(sum.calculate(1, 2))
-
-type tipo = Sum | number;
-
-const arrei: tipo[] = [sum, 1, new Sum(exp, p)];
-
-console.log(arrei);
