@@ -26,6 +26,10 @@ class MathGraph {
         const node = this._nodesMap.get(key1);
         node!.addNeighbor(key2);
     }
+
+    public contains(key: string){
+        return this._nodesMap.has(key);
+    }
 }
 
 class MathGraphNode {
@@ -65,6 +69,10 @@ class MathObjManager {
     public getMathObject(key: string): mathObject {
         const node = this._mathObjects.getGraphNode(key);
         return node.object;
+    }
+
+    public exists(key: string): boolean{
+        return this._mathObjects.contains(key);
     }
 }
 

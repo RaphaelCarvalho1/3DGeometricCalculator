@@ -1,5 +1,6 @@
 import { Scene } from './scene';
 import * as CONST from './constants';
+import { Parser } from './parser';
 
 export class Main {
     private _canvas: HTMLCanvasElement | null;
@@ -35,3 +36,5 @@ window.onload = () => {
     const geometricCalculator = new Main();
     geometricCalculator.draw();
 }
+
+console.log(Parser.split("log_2(x)+y + z^2"))
