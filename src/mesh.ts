@@ -40,11 +40,11 @@ export abstract class Mesh {
 
         mat4.translate(this._model, this._model, this._position);
 
-        mat4.rotateZ(this._model, this._model, this._rotateAngles[2]);
-        mat4.rotateY(this._model, this._model, this._rotateAngles[1]);
-        mat4.rotateX(this._model, this._model, this._rotateAngles[0]);
+        // mat4.rotateZ(this._model, this._model, this._rotateAngles[2]);
+        // mat4.rotateY(this._model, this._model, this._rotateAngles[1]);
+        // mat4.rotateX(this._model, this._model, this._rotateAngles[0]);
 
-        mat4.scale(this._model, this._model, this._scale);
+        // mat4.scale(this._model, this._model, this._scale);
     }
 
     protected abstract createVAO(): void;

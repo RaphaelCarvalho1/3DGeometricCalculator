@@ -20,16 +20,26 @@ export class SurfaceMesh extends Mesh {
         this._heds = new HalfEdgeDS();
 
         //teste
-        this._heds.build([-0.5, 0.5, 0.0,
-                          0.5, 0.5, 0.0,
-                          -0.5,  0.0, 0.0,
-                           0.5, 0.0, 0.0],
+        this._heds.build([-0.5, 0.0, 0.5, //A
+                           0.5, 0.0, 0.5, //B
+                           0.5, 0.0, -0.5, //C
+                          -0.5, 0.0, -0.5, //D
+                           0.0, 1.0, 0.0], //E
 
-                           [2, 3, 0,
-                            0, 3, 1],
+                           [0,2,3, //1                            
+                            1,2,0, //2                            
+                            3,4,0, //3                            
+                            2,1,4, //4                            
+                            0,4,1, //5                            
+                            4,3,2], //6
                             
                             [0.0, 0.0, 0.0,
+                             0.0, 0.0, 0.0,
+                             0.0, 0.0, 0.0,
+                             0.0, 0.0, 0.0,
+                             0.0, 0.0, 0.0,
                              0.0, 0.0, 0.0]);
+
         this._position = [0.0, 0.0, 0.0];
         this.color = [1.0,0.0,0.0];
 
@@ -79,7 +89,7 @@ export class SurfaceMesh extends Mesh {
         const viewLoc =  Main._gl!.getUniformLocation(this._program!, "view");
         Main._gl!.uniformMatrix4fv(viewLoc, false, camera.view);
 
-        const projLoc =  Main._gl!.getUniformLocation(this._program!, "proj");
+        const projLoc =  Main._gl!.getUniformLocation(this._program!, "projection");
         Main._gl!.uniformMatrix4fv(projLoc, false, camera.projection);
 
         Main._gl!.bindVertexArray(this._vaoLoc!);

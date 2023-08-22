@@ -1,4 +1,4 @@
-import { vec3, vec4 } from 'gl-matrix';
+import { vec3 } from 'gl-matrix';
 import { Main } from './main';
 
 class Light {
@@ -9,32 +9,32 @@ class Light {
         return Light._instance;
     }
 
-    private _pos: vec4;
-    private _amb_c: vec4;
+    private _pos: vec3;
+    private _amb_c: vec3;
     private _amb_k: number;
-    private _dif_c: vec4;
+    private _dif_c: vec3;
     private _dif_k: number;
-    private _esp_c: vec4;
+    private _esp_c: vec3;
     private _esp_k: number;
     private _esp_p: number; 
     
     constructor() {
-        this._pos = vec4.fromValues(20.0, 20.0, 20.0, 1.0);
+        this._pos = vec3.fromValues(3.0, 3.0, 3.0);
 
-        this._amb_c = vec4.fromValues(1.0, 1.0, 1.0, 1.0);
-        this._amb_k = 0.2;
+        this._amb_c = vec3.fromValues(1.0, 1.0, 1.0);
+        this._amb_k = 0.5;
 
-        this._dif_c = vec4.fromValues(1.0, 1.0, 1.0, 1.0);
-        this._dif_k = 0.5;
+        this._dif_c = vec3.fromValues(1.0, 1.0, 1.0);
+        this._dif_k = 0.2;
 
-        this._esp_c = vec4.fromValues(1.0, 1.0, 1.0, 1.0);
+        this._esp_c = vec3.fromValues(1.0, 1.0, 1.0);
         this._esp_k = 0.3;
         this._esp_p = 10.0;
     }
 
     public set pos(position: vec3) {
         const pos = position as [number, number, number];
-        this._pos = vec4.fromValues(...pos, 1.0);
+        this._pos = vec3.fromValues(...pos);
     }
     
     public createUniforms(program: WebGLProgram) {
